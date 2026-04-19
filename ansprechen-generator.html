@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Anschreiben Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Anschreiben Generator</h1>
+        <div class="dark-mode-toggle">
+            <label for="dark-mode">Dunkelmodus:</label>
+            <input type="checkbox" id="dark-mode">
+        </div>
+        <textarea id="input-area" placeholder="Geben Sie hier Ihre Informationen ein..."></textarea>
+        <select id="tone-selector">
+            <option value="formal">Formal</option>
+            <option value="informal">Informell</option>
+            <option value="persuasive">Überzeugend</option>
+        </select>
+        <select id="language-selector">
+            <option value="de">Deutsch</option>
+            <option value="en">Englisch</option>
+        </select>
+        <button id="generate-button">Generieren</button>
+        <button id="copy-button">In die Zwischenablage kopieren</button>
+        <div id="output-area"></div>
+        <div id="quota-system">Verwendete Quota: <span id="quota-count">0</span></div>
+        <div id="paywall-message" style="display:none;">Bitte zahlen Sie, um fortzufahren.</div>
+    </div>
+    <script>
+        const darkModeToggle = document.getElementById('dark-mode');
+        const outputArea = document.getElementById('output-area');
+        const quotaCount = document.getElementById('quota-count');
+        let currentQuota = 0;
+
+        darkModeToggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark-mode', darkModeToggle.checked);
+        });
+
+        document.getElementById('generate-button').addEventListener('click', async () => {
+            const inputText = document.getElementById('input-area').value;
+            const tone = document.getElementById('tone-selector').value;
+            const language = document.getElementById('language-selector').value;
+            // Here you would typically call your API to generate text
+            // This is a placeholder for the Claude API integration
+            const generatedText = `Generierter Text in ${language} mit einem ${tone} Ton`;
+            outputArea.textContent = generatedText;
+            currentQuota++;
+            quotaCount.textContent = currentQuota;
+            // Check for paywall condition
+            if (currentQuota > 5) {
+                document.getElementById('paywall-message').style.display = 'block';
+            }
+        });
+
+        document.getElementById('copy-button').addEventListener('click', () => {
+            navigator.clipboard.writeText(outputArea.textContent);
+            alert('In die Zwischenablage kopiert!');
+        });
+    </script>
+</body>
+</html>
